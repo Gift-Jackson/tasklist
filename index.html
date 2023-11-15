@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Snippet</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- MATERIAL ICON -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <!-- AOS LINK -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h3>Task List <small>v2</small></h3>
+        </header>
+
+        <main>
+            <div class="add-task-container">
+                <input type="text" class="add-task-input" placeholder="Add Task" auto-complete="off">
+                <button class="add-task-btn">
+                    <span>Add</span>
+                    <span class="material-symbols-outlined">add</span>
+                </button>
+            </div>
+            <div class="error-msg"><small>Add a task first!</small></div>
+
+            <div class="task-items">
+                <!-- <div class="task-item">
+                    <div class="left">
+                        <span class="material-symbols-outlined chk">circle</span>
+                        <span class="description">Drink garri</span>
+                    </div>
+                    <div class="right">
+                        <button class="complete-btn btn">
+                            <span class="material-symbols-outlined">check</span>
+                        </button>
+                        <button class="delete-btn btn">
+                            <span class="material-symbols-outlined">delete</span>
+                        </button>
+                    </div>
+                </div> -->
+            </div>
+
+            <!-- When list is empty -->
+            <div class="wrapper-container">
+                <div class="wrapper">
+                    <img src="assets/no-task.svg" alt="no-task">
+                    <p>There's no task in on your list today...why? &#128530;</p>
+                </div>
+            </div>
+        </main>
+    </div> 
+
+
+
+    <!-- JAVASCRIPT -->
+    <script src="app.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+
+</html>

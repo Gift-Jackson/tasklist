@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&family=Poppins&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    color: #4a4a4a;
+    text-decoration: none;
+    box-sizing: border-box;
+    color: var(--text-color);
+    /* font-family: 'Kdam Thmor Pro', sans-serif; */
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    min-height: 100vh;
+    background: linear-gradient( 45deg,orange 50%, #4169e1 50%);
+    padding-top: 2rem;
+}
+.container{
+    background-color: #fefefe;
+    min-height: 500px;
+    width: 500px;
+    margin: auto;
+    border-radius: .2rem;
+}
+header{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+}
+header small{
+    opacity: .4;
+}
+
+main{
+    width: 90%;
+    margin: 2rem auto;
+    padding-bottom: 2rem;
+}
+.add-task-container{
+    display: flex;
+    justify-content: space-between;
+}
+.add-task-input{
+    padding: .7rem;
+    width: 100%;
+    border-right: 0;
+    border: 1px solid #eee;
+    border-radius: .2rem 0 0 .2rem;
+}
+.add-task-input:focus{
+    border-color: #aaa;
+    border-right: 0;
+}
+.add-task-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    border: 0;
+    background-color: #4169e1;
+    border-radius: 0 .2rem .2rem 0;
+}
+.add-task-btn span{
+    color: #fefefe;
+}
+.error-msg{
+    background-color: #f5eaec;
+    padding-left: .7rem;
+    color: #f11440;
+    font-weight: 500;
+    border-radius: 0 0 .2rem .2rem;
+    visibility: hidden;
+}
+.btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .5rem;
+    border: 0;
+    transition: .2s;
+}
+.btn:active{
+    transform: scale(.9);
+}
+
+.task-items{
+    margin-top: .8rem;
+}
+.task-item{
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .5rem;
+    border-radius: .2rem;
+    margin-bottom: .5rem;
+}
+.left, .right{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.chk{
+    opacity: .5;
+}
+.chk.checked{
+    color: #03d383;
+}
+.complete-btn{
+    background-color: #03d383;
+    border-radius: .2rem;
+}
+.complete-btn.disable{
+    background-color: #ddd;
+}
+.complete-btn:active.disable{
+    transform: scale(1);
+}
+.complete-btn span{
+    color: #fefefe;
+}
+.delete-btn{
+    background-color: #f11440;
+    border-radius: .2rem;
+}
+.delete-btn span{
+    color: #fefefe;
+}
+.description{
+    text-transform: capitalize;
+}
+
+.wrapper-container{
+    height: calc(300px - 50px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+.wrapper{
+    text-align: center;
+}
+
+.wrapper img{
+    height: 200px;
+}
+.wrapper-container.hide{
+    display: flex;
+}
+
+@media screen and (max-width:540px) {
+    body{
+        padding-top: unset;
+    }
+    .container{
+        width: 100%;
+        min-height: 100vh;
+    }
+    main{
+        margin-bottom: 0;
+    }
+}
