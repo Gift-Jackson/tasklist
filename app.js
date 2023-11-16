@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const addTaskInput = document.getElementById("task-value");
+    const addTaskInput = document.querySelector(".task-value");
     const addTaskBtn = document.querySelector(".add-task-btn");
     const errorMsg = document.querySelector(".error-msg");
     const taskItems = document.querySelector(".task-items");
@@ -15,23 +15,79 @@ document.addEventListener("DOMContentLoaded", function () {
         let taskTimeValue = taskTimeInput.value;
 
         if (!addTaskInputValue || !taskDateValue || !taskTimeValue) {
+            addTaskInput.classList.add("error")
             errorMsg.style.visibility = "visible";
             setTimeout(() => {
                 errorMsg.style.visibility = "hidden";
+                addTaskInput.classList.remove("error")
             }, 2500);
             return;
         }
 
-        const selectedDate = new Date(`${taskDateValue} ${taskTimeValue}`);
         const currentDate = new Date();
+        const selectedDate = new Date(`${taskDateValue} ${taskTimeValue}`);
         const overdue = currentDate > selectedDate;
 
         const formattedDate = formatDate(selectedDate);
         const formattedTime = formatTime(selectedDate);
 
-        const task = createTask(addTaskInputValue, formattedDate, formattedTime, overdue);
+        const task = `
+        <div class="task-item ${overdue ? 'overdue' : ''}">
+            <div class="left">
+                <div class="material-symbols-outlined chk">${overdue ? 'warning' : 'circle'}</div>
+                <div class="item-container">
+                    <span class="${overdue ? 'overdue-text' : ''}">${addTaskInputValue}</span>
+                    <span class="timestamp ${overdue ? 'overdue-text' : ''}">
+                        <small class="date">${formattedDate}</small>
+                        &nbsp;
+                        <small class="time">${formattedTime}</small>
+                    </span>
+                </div>
+            </div>
+            <div class="right">
+                <button class="complete-btn btn">
+                    <span class="material-symbols-outlined">check</span>
+                </button>
+                <button class="delete-btn btn">
+                    <span class="material-symbols-outlined">delete</span>
+                </button>
+            </div>
+        </div>`;
+
         taskItems.insertAdjacentHTML("beforeend", task);
         saveTasks();
+
+        const deleteBtns = document.querySelectorAll(".delete-btn");
+        const completeBtns = document.querySelectorAll(".complete-btn");
+
+        deleteBtns.forEach((deleteBtn) => {
+            deleteBtn.addEventListener("click", () => {
+                deleteBtn.closest(".task-item").remove();
+                saveTasks();
+                checkEmptyTaskItems();
+            });
+        });
+
+        completeBtns.forEach((completeBtn) => {
+            completeBtn.addEventListener("click", () => {
+                const taskItem = completeBtn.closest(".task-item");
+                const chk = taskItem.querySelector(".chk");
+                const description = taskItem.querySelector(".item-container span");
+                const timestamp = taskItem.querySelector(".timestamp");
+
+                chk.textContent = "check_circle";
+                description.style.textDecoration = "line-through";
+
+                completeBtn.classList.add("disable")
+
+                if(completeBtn.classList.contains("disable")){
+                    chk.classList.add("checked");
+                }
+
+                saveTasks();
+                checkEmptyTaskItems();
+            });
+        });
 
         addTaskInput.value = "";
         taskDateInput.value = "";
@@ -57,31 +113,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return number < 10 ? `0${number}` : number;
     }
 
-    function createTask(taskDescription, formattedDate, formattedTime, overdue) {
-        return `
-        <div class="task-item ${overdue ? 'overdue' : ''}">
-            <div class="left">
-                <div class="material-symbols-outlined chk ${overdue ? 'overdue-text' : ''}">${overdue ? 'warning' : 'circle'}</div>
-                <div class="item-container">
-                    <span class="${overdue ? 'overdue-text' : ''}">${taskDescription}</span>
-                    <span class="timestamp ${overdue ? 'overdue-text' : ''}">
-                        <small class="date">${formattedDate}</small>
-                        &nbsp;
-                        <small class="time">${formattedTime}</small>
-                    </span>
-                </div>
-            </div>
-            <div class="right">
-                <button class="complete-btn btn">
-                    <span class="material-symbols-outlined">check</span>
-                </button>
-                <button class="delete-btn btn">
-                    <span class="material-symbols-outlined">delete</span>
-                </button>
-            </div>
-        </div>`;
-    }
-
     function saveTasks() {
         const tasks = Array.from(document.querySelectorAll(".item-container span")).map((task) => task.textContent);
         localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -97,7 +128,28 @@ document.addEventListener("DOMContentLoaded", function () {
             const formattedDate = formatDate(selectedDate);
             const formattedTime = formatTime(selectedDate);
 
-            const task = createTask(taskDescription, formattedDate, formattedTime, overdue);
+            const task = `
+            <div class="task-item ${overdue ? 'overdue' : ''}">
+                <div class="left">
+                    <div class="material-symbols-outlined chk">${overdue ? 'warning' : 'circle'}</div>
+                    <div class="item-container">
+                        <span class="${overdue ? 'overdue-text' : ''}">${taskDescription}</span>
+                        <span class="timestamp ${overdue ? 'overdue-text' : ''}">
+                            <small class="date">${formattedDate}</small>
+                            &nbsp;
+                            <small class="time">${formattedTime}</small>
+                        </span>
+                    </div>
+                </div>
+                <div class="right">
+                    <button class="complete-btn btn">
+                        <span class="material-symbols-outlined">check</span>
+                    </button>
+                    <button class="delete-btn btn">
+                        <span class="material-symbols-outlined">delete</span>
+                    </button>
+                </div>
+            </div>`;
             taskItems.insertAdjacentHTML("beforeend", task);
         });
 
@@ -130,70 +182,4 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     loadTasks();
-
-    taskItems.addEventListener("click", (event) => {
-        const target = event.target;
-
-        if (target.classList.contains("complete-btn")) {
-            handleCompleteTask(target);
-        } else if (target.classList.contains("delete-btn")) {
-            handleDeleteTask(target);
-        }
-    });
-
-    const deleteBtns = document.querySelectorAll(".delete-btn");
-        const completeBtns = document.querySelectorAll(".complete-btn");
-
-        deleteBtns.forEach((deleteBtn) => {
-            deleteBtn.addEventListener("click", () => {
-                deleteBtn.closest(".task-item").remove();
-                saveTasks();
-                checkEmptyTaskItems();
-            });
-        });
-
-        completeBtns.forEach((completeBtn) => {
-            completeBtn.addEventListener("click", () => {
-                const taskItem = completeBtn.closest(".task-item");
-                const chk = taskItem.querySelector(".chk");
-                const description = taskItem.querySelector(".item-container span");
-                const timestamp = taskItem.querySelector(".timestamp");
-
-                chk.textContent = "check_circle";
-                description.style.textDecoration = "line-through";
-
-                completeBtn.classList.add("disable")
-
-                if(completeBtn.classList.contains("disable")){
-                    chk.classList.add("checked");
-                }
-
-                saveTasks();
-                checkEmptyTaskItems();
-            });
-        });
-
-    // Check for overdue tasks every minute
-    setInterval(checkOverdueTasks, 60000);
-
-    function checkOverdueTasks() {
-        const taskItems = document.querySelectorAll(".task-item");
-
-        taskItems.forEach((taskItem) => {
-            const timestamp = taskItem.querySelector(".timestamp");
-            const dateParts = timestamp.querySelector(".date").textContent.split("/");
-            const timeParts = timestamp.querySelector(".time").textContent.split(":");
-            const taskDate = new Date(`${dateParts[2]}-${dateParts[1]}-${dateParts[0]}T${timeParts[0]}:${timeParts[1]}`);
-            const currentDate = new Date();
-
-            if (currentDate > taskDate && !taskItem.classList.contains("overdue")) {
-                taskItem.classList.add("overdue");
-                const chk = taskItem.querySelector(".chk");
-                chk.textContent = "warning";
-                const description = taskItem.querySelector(".item-container span");
-                description.classList.add("overdue-text");
-                timestamp.classList.add("overdue-text");
-            }
-        });
-    }
 });
