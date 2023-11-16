@@ -17,35 +17,12 @@
 
     <div class="container">
         <header>
-            <h3>Task List <small>v2</small></h3>
+            <h3>Task List <small>v2.1</small></h3>
         </header>
+        <hr>
 
         <main>
-            <div class="add-task-container">
-                <input type="text" class="add-task-input" placeholder="Add Task" auto-complete="off">
-                <button class="add-task-btn">
-                    <span>Add</span>
-                    <span class="material-symbols-outlined">add</span>
-                </button>
-            </div>
-            <div class="error-msg"><small>Add a task first!</small></div>
-
-            <div class="task-items">
-                <!-- <div class="task-item">
-                    <div class="left">
-                        <span class="material-symbols-outlined chk">circle</span>
-                        <span class="description">Drink garri</span>
-                    </div>
-                    <div class="right">
-                        <button class="complete-btn btn">
-                            <span class="material-symbols-outlined">check</span>
-                        </button>
-                        <button class="delete-btn btn">
-                            <span class="material-symbols-outlined">delete</span>
-                        </button>
-                    </div>
-                </div> -->
-            </div>
+            <div class="task-items"></div>
 
             <!-- When list is empty -->
             <div class="wrapper-container">
@@ -55,7 +32,39 @@
                 </div>
             </div>
         </main>
-    </div> 
+
+        <!-- Popup button -->
+        <button class="btn popup-btn">
+            <span class="popup-icon material-symbols-outlined">add</span>
+        </button>
+
+        <!-- Add task -->
+        <div class="add-task-bg close-popup">
+            <div class="add-task-container">
+                <div class="input-control">
+                    <label for="task-value"> Enter a task:</label> <br>
+                    <input type="text" id="task-value" class="task-value" placeholder="Add task...">
+                    <div class="error-msg"><small>Add a task first!</small></div>
+                </div>
+                <div class="input-control-container">
+                    <div class="input-control">
+                        <label for="date">Due Date:</label> <br>
+                        <input type="date" id="date" class="task-date">
+                    </div>
+                    <div class="input-control">
+                        <label for="time">Time:</label> <br>
+                        <input type="time" id="time" class="task-time">
+                    </div>
+                </div>
+                <button class="add-task-btn btn">
+                    <span>Add</span>
+                    <span class="material-symbols-outlined">add</span>
+                </button>
+
+                <span class="material-symbols-outlined close-popup-btn close-popup">close</span>
+            </div>
+        </div>
+    </div>
 
 
 

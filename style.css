@@ -12,69 +12,163 @@
     font-family: 'Poppins', sans-serif;
 }
 
-body{
+body {
     min-height: 100vh;
-    background: linear-gradient( 45deg,orange 50%, #4169e1 50%);
+    background: linear-gradient(45deg, orange 50%, #4169e1 50%);
     padding-top: 2rem;
 }
-.container{
+
+.container {
     background-color: #fefefe;
     min-height: 500px;
     width: 500px;
     margin: auto;
     border-radius: .2rem;
+    position: relative;
 }
-header{
+
+header {
     height: 50px;
     display: flex;
     align-items: center;
     padding: 1rem;
 }
-header small{
+
+header small {
     opacity: .4;
 }
 
-main{
+hr {
+    border: 1px solid #eee
+}
+
+main {
     width: 90%;
-    margin: 2rem auto;
+    margin: auto;
     padding-bottom: 2rem;
 }
-.add-task-container{
-    display: flex;
-    justify-content: space-between;
+
+.add-task-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    display: none;
+    justify-content: center;
+    align-items: center;
 }
-.add-task-input{
+
+.add-task-bg.active {
+    display: flex;
+}
+
+.add-task-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #fefefe;
+    width: 80%;
+    padding: 2rem 1rem 1rem 1rem;
+    border-radius: .2rem;
+    position: relative;
+    transform: scale(0);
+    animation: pop .2s linear forwards;
+}
+
+@keyframes pop {
+    100% {
+        transform: scale(1);
+    }
+}
+
+.close-popup-btn {
+    position: absolute;
+    top: .5rem;
+    right: 1rem;
+}
+
+.task-value {
     padding: .7rem;
     width: 100%;
-    border-right: 0;
     border: 1px solid #eee;
     border-radius: .2rem 0 0 .2rem;
 }
-.add-task-input:focus{
-    border-color: #aaa;
-    border-right: 0;
+
+.task-value.error {
+    border: 1px solid #f11440;
+    background-color: transparent;
+    color: #f11440;
+    animation: error 0.2s linear 2;
 }
-.add-task-btn{
+
+@keyframes error {
+    0% {
+        transform: translateX(-4px);
+    }
+
+    20% {
+        transform: translateX(4px);
+    }
+
+    40% {
+        transform: translateX(-4px);
+    }
+
+    60% {
+        transform: translateX(4px);
+    }
+
+    80% {
+        transform: translateX(-4px);
+    }
+}
+
+.task-value.error::placeholder {
+    color: #f11440;
+}
+
+.task-value:focus {
+    border-color: #aaa;
+}
+
+.input-control-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: .5rem;
+}
+
+.input-control-container input {
+    padding: .5rem;
+    border: 1px solid #eee;
+}
+
+.add-task-btn {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 40%;
+    margin: 1rem auto 0;
     border: 0;
     background-color: #4169e1;
-    border-radius: 0 .2rem .2rem 0;
+    border-radius: .2rem;
 }
-.add-task-btn span{
+
+.add-task-btn span {
     color: #fefefe;
 }
-.error-msg{
+
+.error-msg {
     background-color: #f5eaec;
     padding-left: .7rem;
     color: #f11440;
     font-weight: 500;
+    font-size: 13px;
     border-radius: 0 0 .2rem .2rem;
     visibility: hidden;
 }
-.btn{
+
+.btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -82,14 +176,16 @@ main{
     border: 0;
     transition: .2s;
 }
-.btn:active{
+
+.btn:active {
     transform: scale(.9);
 }
 
-.task-items{
-    margin-top: .8rem;
+.task-items {
+    margin-top: 1rem;
 }
-.task-item{
+
+.task-item {
     background-color: #f5f5f5;
     display: flex;
     align-items: center;
@@ -99,67 +195,171 @@ main{
     border-radius: .2rem;
     margin-bottom: .5rem;
 }
-.left, .right{
+
+.left,
+.right {
     display: flex;
     align-items: center;
     gap: 1rem;
 }
-.chk{
+
+.chk {
     opacity: .5;
 }
-.chk.checked{
-    color: #03d383;
+
+.chk.checked {
+    color: #07794d;
 }
-.complete-btn{
+
+.complete-btn {
     background-color: #03d383;
     border-radius: .2rem;
 }
-.complete-btn.disable{
+
+.complete-btn.disable {
     background-color: #ddd;
 }
-.complete-btn:active.disable{
+
+.complete-btn:active.disable {
     transform: scale(1);
 }
-.complete-btn span{
+
+.complete-btn span {
     color: #fefefe;
 }
-.delete-btn{
+
+.delete-btn {
     background-color: #f11440;
     border-radius: .2rem;
 }
-.delete-btn span{
+
+.delete-btn span {
     color: #fefefe;
 }
-.description{
+
+.description {
     text-transform: capitalize;
 }
 
-.wrapper-container{
+.wrapper-container {
     height: calc(300px - 50px);
     display: none;
     justify-content: center;
     align-items: center;
 }
-.wrapper{
+
+.wrapper {
     text-align: center;
 }
 
-.wrapper img{
+.wrapper img {
     height: 200px;
 }
-.wrapper-container.hide{
+
+.wrapper-container.hide {
     display: flex;
 }
 
+.item-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.timestamp {
+    font-size: 14px;
+    opacity: .7;
+}
+
+.popup-btn {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 4rem;
+    right: 2rem;
+    background-color: #4169e1;
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, .05);
+}
+
+.popup-btn span {
+    color: #fefefe;
+}
+
+/* overdue */
+/* overdue */
+.task-item.overdue {
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .5rem;
+    border-radius: .2rem;
+    margin-bottom: .5rem;
+    color: red;
+    /* Set the text color for overdue tasks */
+}
+
+.task-item.overdue .chk {
+    opacity: .5;
+    color: red;
+    /* Set the text color for the circle icon for overdue tasks */
+}
+
+.task-item.overdue .complete-btn {
+    background-color: #03d383;
+    /* You can adjust the color for the complete button for overdue tasks */
+}
+
+.task-item.overdue .complete-btn span {
+    color: #fefefe;
+}
+
+.task-item.overdue .delete-btn {
+    background-color: #f11440;
+    /* You can adjust the color for the delete button for overdue tasks */
+}
+
+.task-item.overdue .delete-btn span {
+    color: #fefefe;
+}
+
+.task-item.overdue-text .description {
+    text-transform: capitalize;
+    color: red;
+    /* Set the text color for the task value for overdue tasks */
+}
+
+.task-item.overdue .timestamp {
+    font-size: 14px;
+    opacity: .7;
+    color: red;
+    /* Set the text color for the timestamp for overdue tasks */
+}
+
+/* end of overdue */
+
+
+/* end of overdue */
+
+
+
+
 @media screen and (max-width:540px) {
-    body{
+    body {
         padding-top: unset;
     }
-    .container{
+
+    .container {
         width: 100%;
         min-height: 100vh;
     }
-    main{
+
+    main {
         margin-bottom: 0;
+    }
+    .popup-btn{
+        position: fixed;
     }
 }
