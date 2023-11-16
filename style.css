@@ -57,7 +57,7 @@ main {
     background-color: rgba(0, 0, 0, .5);
     display: none;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
 }
 
 .add-task-bg.active {
@@ -69,7 +69,9 @@ main {
     flex-direction: column;
     background-color: #fefefe;
     width: 80%;
+    height: 280px;
     padding: 2rem 1rem 1rem 1rem;
+    margin-top: 4rem;
     border-radius: .2rem;
     position: relative;
     transform: scale(0);
@@ -141,6 +143,7 @@ main {
 .input-control-container input {
     padding: .5rem;
     border: 1px solid #eee;
+    background-color: transparent;
 }
 
 .add-task-btn {
