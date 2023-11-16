@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="left">
                 <div class="material-symbols-outlined chk">${overdue ? 'warning' : 'circle'}</div>
                 <div class="item-container">
-                    <span class="${overdue ? 'overdue-text' : ''}">${addTaskInputValue}</span>
+                    <span class="${overdue ? 'overdue-text' : 'task-text'}">${addTaskInputValue}</span>
                     <span class="timestamp ${overdue ? 'overdue-text' : ''}">
                         <small class="date">${formattedDate}</small>
                         &nbsp;
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 completeBtn.classList.add("disable")
 
-                if(completeBtn.classList.contains("disable")){
+                if (completeBtn.classList.contains("disable")) {
                     chk.classList.add("checked");
                 }
 
@@ -113,8 +113,32 @@ document.addEventListener("DOMContentLoaded", function () {
         return number < 10 ? `0${number}` : number;
     }
 
+    // Check for overdue tasks every minute
+    setInterval(checkOverdueTasks, 60000);
+
+    function checkOverdueTasks() {
+        const taskItems = document.querySelectorAll(".task-item");
+
+        taskItems.forEach((taskItem) => {
+            const timestamp = taskItem.querySelector(".timestamp");
+            const dateParts = timestamp.querySelector(".date").textContent.split("/");
+            const timeParts = timestamp.querySelector(".time").textContent.split(":");
+            const taskDate = new Date(`${dateParts[2]}-${dateParts[1]}-${dateParts[0]}T${timeParts[0]}:${timeParts[1]}`);
+            const currentDate = new Date();
+
+            if (currentDate > taskDate && !taskItem.classList.contains("overdue")) {
+                taskItem.classList.add("overdue");
+                const chk = taskItem.querySelector(".chk");
+                chk.textContent = "warning";
+                const description = taskItem.querySelector(".item-container span");
+                description.classList.add("overdue-text");
+                timestamp.classList.add("overdue-text");
+            }
+        });
+    }
+
     function saveTasks() {
-        const tasks = Array.from(document.querySelectorAll(".item-container span")).map((task) => task.textContent);
+        const tasks = Array.from(document.querySelectorAll(".item-container .task-text")).map((task) => task.textContent);
         localStorage.setItem("tasks", JSON.stringify(tasks));
     }
 
@@ -133,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="left">
                     <div class="material-symbols-outlined chk">${overdue ? 'warning' : 'circle'}</div>
                     <div class="item-container">
-                        <span class="${overdue ? 'overdue-text' : ''}">${taskDescription}</span>
+                        <span class="${overdue ? 'overdue-text' : 'task-text'}">${taskDescription}</span>
                         <span class="timestamp ${overdue ? 'overdue-text' : ''}">
                             <small class="date">${formattedDate}</small>
                             &nbsp;
@@ -183,3 +207,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
     loadTasks();
 });
+
+
