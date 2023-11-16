@@ -257,6 +257,10 @@ main {
     text-align: center;
 }
 
+.wrapper p{
+    opacity: .5;
+}
+
 .wrapper img {
     height: 200px;
 }
@@ -291,7 +295,6 @@ main {
     color: #fefefe;
 }
 
-/* overdue */
 /* overdue */
 .task-item.overdue {
     background-color: #f5f5f5;
